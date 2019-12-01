@@ -1,4 +1,7 @@
-﻿namespace SalesEf.Migrations
+﻿using System.Collections.Generic;
+using CodeFirstSales;
+
+namespace SalesEf.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -17,10 +20,19 @@
 
         protected override void Seed(SalesEf.Sales context)
         {
-            //  This method will be called after migrating to the latest version.
+#if true
+          
+            context.Database.ExecuteSqlCommand("DELETE Customers");
+            IList<Customer> defaultStandards = new List<Customer>();
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            defaultStandards.Add(new Customer() { FirstName = "Bob", LastName = "Mossanen" });
+            defaultStandards.Add(new Customer() { FirstName = "Shelly", LastName = "Moss" });
+            defaultStandards.Add(new Customer() { FirstName = "Bonnie", LastName = "Molavi" });
+
+            context.Customers.AddRange(defaultStandards);
+
+            base.Seed(context);
+#endif
         }
     }
 }

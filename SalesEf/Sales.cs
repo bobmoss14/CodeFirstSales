@@ -4,6 +4,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Reflection;
 using CodeFirstSales;
+using CodeFirstSales.Classes;
 
 namespace SalesEf
 {
@@ -15,7 +16,7 @@ namespace SalesEf
         }
 
         public virtual DbSet<Customer> Customers { get; set;  }
-
+        public virtual DbSet<ContactDetail> ContactDetails { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());

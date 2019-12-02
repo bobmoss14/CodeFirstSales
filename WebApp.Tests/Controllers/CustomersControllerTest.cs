@@ -12,18 +12,10 @@ namespace WebApp.Tests.Controllers
     [TestClass]
     public class CustomersControllerTest
     {
-        public CustomersControllerTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-      
 
         public static CustomersController TestContextInstance { get; set; }
         private Customer CreatedCustomer { get; set; }
-      //  private Customer UpdatedCustomer { get; set; }
+        //  private Customer UpdatedCustomer { get; set; }
 
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
@@ -45,7 +37,7 @@ namespace WebApp.Tests.Controllers
         }
 
 
-       
+
         [TestCleanup()]
         public void CustomerCleanup()
         {
@@ -60,7 +52,7 @@ namespace WebApp.Tests.Controllers
             }
         }
 
-       
+
         #region Additional test attributes
         //
 
@@ -72,9 +64,10 @@ namespace WebApp.Tests.Controllers
         #endregion
 
         [TestMethod]
+        [Priority(1)]
         public void TestGetCustomers()
         {
-           
+
             // Act
             var result = TestContextInstance.Get();
 
@@ -85,10 +78,11 @@ namespace WebApp.Tests.Controllers
         }
 
         [TestMethod]
+        [Priority(1)]
         public void TestGetCustomer()
         {
             // Arrange
-             var customer = TestContextInstance.Get().FirstOrDefault();
+            var customer = TestContextInstance.Get().FirstOrDefault();
 
             // Act
             if (customer != null)
@@ -108,10 +102,32 @@ namespace WebApp.Tests.Controllers
         }
 
         [TestMethod]
+        [Owner("Bob MOssanen")]
+        [Priority(3)]
+        [Ignore()]
+        public void TestGetCustomerWithNonExistentId()
+        {
+            // Arrange
+
+            var result = TestContextInstance.Get(-1);
+
+
+            // Act
+
+
+            //Assert
+            Assert.IsNull(result);
+
+
+        }
+
+
+        [TestMethod]
+        [Priority(2)]
         public void TestAddCustomer()
         {
             // Arrange
-           
+
 
             // Act
             var result = TestContextInstance.Get(CreatedCustomer.CustomerId);
@@ -123,6 +139,7 @@ namespace WebApp.Tests.Controllers
         }
 
         [TestMethod]
+        [Priority(2)]
         public void TestUpdateCustomer()
         {
             // Arrange
@@ -131,11 +148,11 @@ namespace WebApp.Tests.Controllers
             result.LastName = result.LastName + "1";
 
             // Act
-            TestContextInstance.Put(result.CustomerId,result);
+            TestContextInstance.Put(result.CustomerId, result);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(result.FirstName, CreatedCustomer.FirstName);
+            Assert.AreEqual(result.FirstName, CreatedCustomer.FirstName.ToLower(),true);
             //
         }
     }
